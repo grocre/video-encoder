@@ -1,0 +1,16 @@
+apiVersion: v1 # versão da api
+kind: Pod # recurso que vai ser utilizado
+metadata:
+  name: kube-js-api # nome do pod
+  labels:
+    name: kubernetes # meio que o as etiquetas do pod -> ngnix, server, etc -> criadas pelo desenvolvedor
+spec:
+  containers: # o nome já diz
+  - name: kube-api
+    image: grocre/kube-api
+    resources:
+      limits:
+        memory: "128Mi" # memoria alocada
+        cpu: "500m" # cpu alocada
+    ports:
+      - containerPort: 8080 # porta 
