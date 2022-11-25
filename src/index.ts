@@ -1,15 +1,25 @@
 import express, { Request, Response } from "express"
+import * as dotenv from "dotenv"
+import axios from "axios"
+
+dotenv.config()
 
 const app = express()
 
-// vale a pena ver a aplicabilidade disso com websockets
+let url = "test"
 
 app.get("/serveApi", (request: Request, response: Response) => {
     response.json({"message": "okay"})
 })
 
-app.post("/requestInfo", (request: Request, response: Response) => {
-    let {searchedData} = request.body
+app.post("/requestInfo", async (request: Request, response: Response) => {
+    try {   
+        let {searchedData} = request.body
+        await axios.post(url, searchedData)
+        response.status(200)
+    } catch (error:any) {
+        response.json(error).status(400)
+    }
 })
 
 app.listen(5000, () => console.log("server is running"))
