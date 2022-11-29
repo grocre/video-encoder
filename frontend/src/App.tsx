@@ -16,11 +16,10 @@ function App() {
             await api.post("/videos", {
                 "searched": search
             })
-            console.log("foi")
             setSearch('')
         }
     }
-
+    
     return (
         <div className="App">
             <input onChange={handleSearch} onKeyDown={handleKeyDown} value={search} placeholder='Digite aqui a sua pesquisa' />
