@@ -1,6 +1,8 @@
 # folders
 dist
 node_modules
+**/venv
+**/__pycache__
 
 # files
 readme.md

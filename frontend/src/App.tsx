@@ -1,8 +1,6 @@
 import { useState, FormEvent, KeyboardEvent } from 'react'
+import api from './services/api'
 import './App.css'
-
-
-let Urlfodase = ""
 
 function App() {
     const [search, setSearch] = useState<string>("")
@@ -12,11 +10,13 @@ function App() {
         setSearch(searchedValue)
     }
 
-    const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
         let { key } = event
         if (key === 'Enter') {
+            await api.post("/videos", {
+                "searched": search
+            })
             console.log("foi")
-            // axios.post(Urlfodase, {data: search})
             setSearch('')
         }
     }
