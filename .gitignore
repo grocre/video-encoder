@@ -4,8 +4,12 @@ node_modules
 **/venv
 **/__pycache__
 
+kubernetes/
+
 # files
 readme.md
 .env
+**.crt
+**.key
 
 **/**.json
