@@ -90,13 +90,9 @@ def download(hrefs):
             }
             data.append(videoInfo)
 
-            print(videoInfo["id"])
-            print(videoInfo["descricao"])
-            print(str(videoInfo["date"])[:10])
-            print("\n\nMETADATA")
-            print(yt.metadata)
+            print(videoInfo)
 
-            stream.download("videoData/videos")
+            stream.download(output_path = "videoData/videos", filename = str(yt.title + "_" + extract.video_id(href)) + ".mp4")
             extract_thumb(href, yt)
             print("\n\n")
         except Exception as e: 
@@ -107,6 +103,7 @@ def download(hrefs):
 hrefs = automation()
 
 download(hrefs)
+
 with open("videoInfo.json", "w") as outfile:
     json.dump(data, outfile)
 
