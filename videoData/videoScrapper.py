@@ -2,9 +2,10 @@
 import time
 start_time = time.time()
 import json
+
 # Automation Imports - Selenium
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -27,7 +28,7 @@ def extract_thumb(href, yt):
     img_data = requests.get(yt.thumbnail_url).content
     id = extract.video_id(href)
 
-    with open('./thumbs/thumb_' + str(id) +'.jpg', 'wb') as handler:
+    with open('videoData/thumbs/thumb_' + str(id) +'.jpg', 'wb') as handler:
         handler.write(img_data)
 
 # capturing links from YouTube search
@@ -89,7 +90,7 @@ def download(hrefs):
             print("\n\nMETADATA")
             print(yt.metadata)
 
-            stream.download("./videos")
+            stream.download("videoData/videos")
             extract_thumb(href, yt)
             print("\n\n")
         except Exception as e: 
