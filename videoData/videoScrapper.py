@@ -15,6 +15,7 @@ from time import sleep
 
 # Download imports - Pytube
 from pytube import YouTube
+from pytube import Channel
 from pytube import extract
 
 # Requests for the thumbnails
@@ -77,16 +78,21 @@ def download(hrefs):
                 "id": extract.video_id(href),
                 "title": yt.title,
                 "channel_url": yt.channel_url,
+                "channel_name": Channel(yt.channel_url).channel_name,
                 "thumb": yt.thumbnail_url,
                 "busca": busca,
                 "descricao": yt.description,
                 "duracao": yt.length,
+                "date": str(yt.publish_date)[:10],
+                "views": yt.views,
+
                 # "metadata": yt.metadata
             }
             data.append(videoInfo)
 
             print(videoInfo["id"])
             print(videoInfo["descricao"])
+            print(str(videoInfo["date"])[:10])
             print("\n\nMETADATA")
             print(yt.metadata)
 
