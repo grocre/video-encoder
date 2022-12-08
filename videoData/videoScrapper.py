@@ -9,6 +9,7 @@ from selenium.webdriver.firefox.options import Options
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.support import expected_conditions as EC
 
 from time import sleep
@@ -21,7 +22,7 @@ from pytube import extract
 # Requests for the thumbnails
 import requests
 
-busca = "Iron Maiden"
+busca = "Slipknot"
 
 # functions
 # Extract the Thumbnail
@@ -36,8 +37,8 @@ def extract_thumb(href, yt):
 def automation():
     options = webdriver.FirefoxOptions()
     options.add_argument("--headless")
-
-    driver = webdriver.Firefox(options = options)
+    service = FirefoxService('~/local/bin/geckodriver')
+    driver = webdriver.Firefox(options = options, service = service)
     # driver.set_window_size(1920, 1080)
     # driver.maximize_window()
     driver.get("https://www.youtube.com")
@@ -65,14 +66,14 @@ def download(hrefs):
     print("\n Downloading: \n\n")
     i = 0
     for href in hrefs:
-        if i >= 3:
-            print("Parando Downloads")
-            break
+        # if i >= 3:
+        #     print("Parando Downloads")
+        #     break
         print("link", href)
         try:
             yt = YouTube(href) 
 
-            stream = yt.streams.filter(progressive = True).get_highest_resolution()
+            # stream = yt.streams.filter(progressive = True).get_highest_resolution()
             
             videoInfo = {
                 "id": extract.video_id(href),
@@ -92,7 +93,7 @@ def download(hrefs):
 
             print(videoInfo)
 
-            stream.download(output_path = "videoData/videos", filename = str(yt.title + "_" + extract.video_id(href)) + ".mp4")
+            # stream.download(output_path = "videoData/videos", filename = str(yt.title + "_" + extract.video_id(href)) + ".mp4")
             extract_thumb(href, yt)
             print("\n\n")
         except Exception as e: 
