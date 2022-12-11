@@ -1,28 +1,14 @@
-import { useState, FormEvent, KeyboardEvent } from 'react'
-import api from './services/api'
+import { BrowserRouter } from 'react-router-dom'
 import './App.css'
+import SearchInput from './components/SearchInput'
 
 function App() {
-    const [search, setSearch] = useState<string>("")
 
-    const handleSearch = (event: FormEvent<HTMLInputElement>) => {
-        const searchedValue = (event.target as HTMLInputElement).value
-        setSearch(searchedValue)
-    }
-
-    const handleKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
-        let { key } = event
-        if (key === 'Enter') {
-            await api.post("/videos", {
-                "searched": search
-            })
-            setSearch('')
-        }
-    }
-    
     return (
         <div className="App">
-            <input onChange={handleSearch} onKeyDown={handleKeyDown} value={search} placeholder='Digite aqui a sua pesquisa' />
+            <BrowserRouter>
+                <SearchInput />
+            </BrowserRouter>
         </div>
     )
 }
