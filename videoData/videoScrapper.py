@@ -22,19 +22,20 @@ from pytube import extract
 # Requests for the thumbnails
 import requests
 
-busca = "Slipknot"
-
+# Firebase imports
+import firebase_admin
+from firebase_admin import credentials, firestore
 # functions
 # Extract the Thumbnail
 def extract_thumb(href, yt):
     img_data = requests.get(yt.thumbnail_url).content
     id = extract.video_id(href)
 
-    with open('videoData/thumbs/thumb_' + str(id) +'.jpg', 'wb') as handler:
+    with open('thumbs/thumb_' + str(id) +'.jpg', 'wb') as handler:
         handler.write(img_data)
 
 # capturing links from YouTube search
-def automation():
+def automation(busca):
     options = webdriver.FirefoxOptions()
     options.add_argument("--headless")
     service = FirefoxService('~/local/bin/geckodriver')
@@ -66,9 +67,9 @@ def download(hrefs):
     print("\n Downloading: \n\n")
     i = 0
     for href in hrefs:
-        # if i >= 3:
-        #     print("Parando Downloads")
-        #     break
+        if i >= 3:
+            print("Parando Downloads")
+            break
         print("link", href)
         try:
             yt = YouTube(href) 
@@ -86,6 +87,7 @@ def download(hrefs):
                 "duracao": yt.length,
                 "date": str(yt.publish_date)[:10],
                 "views": yt.views,
+                "created_at": time.time()
 
                 # "metadata": yt.metadata
             }
@@ -99,11 +101,24 @@ def download(hrefs):
         except Exception as e: 
             print(e)
         i = i + 1
-
+    return data
 # Main
-hrefs = automation()
+# Firebase
+cred = credentials.Certificate('firebase/gglobo-live-encoder-8k-hdg-dev-576a18cbe7cf.json')
 
-download(hrefs)
+app = firebase_admin.initialize_app(cred)
+
+db = firestore.client()
+
+print("")
+busca = "Iron Maiden"
+hrefs = automation(busca=busca)
+
+videoData = download(hrefs)
+
+for dictItem in videoData:
+    doc_ref = db.collection(u'videoData').document(dictItem["title"])
+    doc_ref.set(dictItem)
 
 with open("videoInfo.json", "w") as outfile:
     json.dump(data, outfile)

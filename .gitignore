@@ -5,7 +5,7 @@ node_modules
 **/__pycache__
 **/videos
 **/thumbs
-
+video-encoder
 # files
 readme.md
 .env
@@ -13,3 +13,6 @@ geckodriver.log
 .DS_Store
 videoData/.DS_Store
 **/**.json
+firebaseIndex.py
+teste.py
+videoEnv
