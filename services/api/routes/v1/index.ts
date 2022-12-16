@@ -1,5 +1,5 @@
-import { Router, Request, Response } from "express";
-import VideoEnconderController from "../../controller/VideoEncoderControler";
+import { Router } from "express";
+import VideoEnconderController from "../../controller/VideoEncoderController";
 
 const router = Router()
 

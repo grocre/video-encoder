@@ -1,12 +1,10 @@
-import { VideoObject } from "../@types";
 import { firestore } from "../firebase";
-import { collection, getDocs, orderBy, query } from "firebase/firestore"
+import { collection, getDocs, orderBy, query, where, DocumentData, QueryDocumentSnapshot } from "firebase/firestore"
 
 // ajustar para o videoSearch
-function getVideosFromDatabase(videoSearch: string): VideoObject[] | void {
-    getDocs(query(collection(firestore, "videos"), orderBy("created_at")))
-        .then(data => data.docs.map(doc => doc ))
-        .catch(error => error)
+async function getVideosFromDatabase(videoSearch: string): Promise<QueryDocumentSnapshot<DocumentData>[]> {
+    let queriedVideos = (await getDocs(query(collection(firestore, "videoData"), where("busca", "==", videoSearch)))).docs
+    return queriedVideos
 }
 
 export { getVideosFromDatabase }

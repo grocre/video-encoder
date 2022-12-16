@@ -7,10 +7,10 @@ class VideoEnconderController {
     async searchVideo(request: Request, response: Response): Promise<void> {
         try {
             const { searchTopic } = request.params
-            let queried = getVideosFromDatabase(searchTopic)
+            let queried = await getVideosFromDatabase(searchTopic)
             response.status(200).json({"data": queried})
         } catch (error: any) {
-            response.status(401).json({"message": error})
+            response.status(405).json({"message": error})
         }
     }
 }
