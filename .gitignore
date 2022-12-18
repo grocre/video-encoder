@@ -3,6 +3,7 @@ dist
 node_modules
 **/venv
 **/__pycache__
+**/test
 
 kubernetes/
 

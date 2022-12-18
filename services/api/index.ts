@@ -1,8 +1,10 @@
 import express from "express"
 import router from "./routes/v1"
+import corsOptions from "./services/cors"
 
 const app = express()
 
+app.use(corsOptions)
 app.use(express.json())
 app.use("/v1/",router)
 
