@@ -1,3 +1,5 @@
+import { InputHTMLAttributes } from "react"
+
 interface VideoObject {
     busca: string
     channel_name: string
@@ -12,4 +14,8 @@ interface VideoObject {
     views: number
 }
 
-export type {VideoObject}
+interface VideoResultProps extends InputHTMLAttributes {
+    videos: VideoObject[]
+}   
+
+export type {VideoObject, VideoResultProps}

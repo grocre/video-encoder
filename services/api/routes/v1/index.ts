@@ -6,5 +6,6 @@ const router = Router()
 let videoEncoderController = new VideoEnconderController()
 
 router.get("/searchVideos/:searchTopic", videoEncoderController.searchVideo)
+router.get("/videos", videoEncoderController.queryAllVideos)
 
 export default router
