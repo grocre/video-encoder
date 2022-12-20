@@ -1,5 +1,5 @@
 import { InputHTMLAttributes } from "react"
-
+import { AxiosResponse } from "axios"
 interface VideoObject {
     busca: string
     channel_name: string
@@ -16,6 +16,6 @@ interface VideoObject {
 
 interface VideoResultProps extends InputHTMLAttributes {
     videos: VideoObject[]
-}   
+}
 
-export type {VideoObject, VideoResultProps}
+export type {VideoObject, VideoResultProps, VideoResultProps}

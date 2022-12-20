@@ -1,14 +1,16 @@
 import { FormEvent, KeyboardEvent, useState, useEffect } from 'react'
 import { useSearchParams } from "react-router-dom"
-import VideoResult from './VideoResult'
 import api from '../services/api'
 
 import { VideoObject } from '../@types'
+import { AxiosResponse } from 'axios'
+
+import "./SearchPage.css"
 
 export default function SearchPage() {
 
     const [searchVideos, setSearchVideos] = useSearchParams('')
-    const [videosFounded, setVideosFounded] = useState<VideoObject[]>([])
+    const [videosFounded, setVideosFounded] = useState<VideoObject[] | undefined>()
 
     const handleSearch = (event: FormEvent<HTMLInputElement>) => {
         const searchedValue = (event.target as HTMLInputElement).value
@@ -28,22 +30,26 @@ export default function SearchPage() {
         }
     }
 
-    const firstRenderingSetAllVideos = async (): Promise<VideoObject[]> => {
-        return await (await api.get(`v1/videos`)).data
+    const firstRenderingSetAllVideos = async (): Promise<AxiosResponse> => {
+        const response = await api.get(`v1/videos`)
+        return response.data
+
     }
 
+    // colocar as infos no localstorage -> cachezão
     useEffect(() => {
-        async () => {
-            setVideosFounded(await firstRenderingSetAllVideos())
+        const fetchVideos = async () => {
+            setVideosFounded(await (await firstRenderingSetAllVideos()).data)
         }
-    })
+        fetchVideos()
+    }, [])
 
     return (
         <div>
             <input onChange={handleSearch} onKeyDown={handleKeyDown} placeholder='Digite aqui a sua pesquisa' />
-            {videosFounded.length > 0 ?
-                <VideoResult videos={videosFounded} /> : ''
-            }
+            <ul id='classList'>
+                {videosFounded?.map(videoFounded => <li key={videoFounded.id}>{videoFounded.title}</li>)}
+            </ul>
         </div>
     )
 }
